@@ -2,20 +2,27 @@
 include("dbconnection.php");
 $con=dbconnection();
 
-$query="SELECT `id_mascota_lost`, `nombre_mascota_lost`, `raza_mascota_lost`,
- `color_mascota_lost`, `tamano_mascota_lost`, `sexo_mascota_lost`, `desc_mascota_lost`,
-  `recom_mascota_lost`, `tipo_mascota_lost`,`direccion_mascota_lost`,`telefono_mascota_lost`,
-    `imagen_mascota_lost`, `id_refugio_fk`, `id_usuario_fk`, `id_ciudad_fk` FROM `mascotas_perdidas`";
+$query = "SELECT imagen_mascota.id_imagen_mascota,
+                 imagen_mascota.imagen_mascota,
+                 imagen_mascota.imagen_mascota_dos,
+                 imagen_mascota.imagen_mascota_tres,
+                 mascotas_perdidas.*,
+                 usuarios.*
+          FROM imagen_mascota
+          INNER JOIN mascotas_perdidas ON imagen_mascota.id_mascota_lost_fk = mascotas_perdidas.id_mascota_lost
+          INNER JOIN usuarios ON mascotas_perdidas.id_cliente_fk = usuarios.id
+          WHERE usuarios.id IS NOT NULL";
 
-$exe=mysqli_query($con,$query);
+$result = mysqli_query($con, $query);
 
-$arr=[];
-
-while($row=mysqli_fetch_array($exe))
-{
-    $arr[]=$row;
+if ($result) {
+    $response = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $response[] = $row;
+    }
+    echo json_encode($response); 
+} else {
+    echo json_encode(array("error" => "Error al obtener datos de mascotas perdidas, refugios, teléfonos y direcciones."));
 }
-
-print(json_encode($arr));
-
+mysqli_close($con);
 ?>
