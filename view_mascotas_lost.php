@@ -13,6 +13,32 @@ $query = "SELECT imagen_mascota.id_imagen_mascota,
           INNER JOIN usuarios ON mascotas_perdidas.id_cliente_fk = usuarios.id
           WHERE usuarios.id IS NOT NULL";
 
+$conditions = [];
+
+if (!empty($_GET['tipo'])) {
+    $conditions[] = "mascotas_perdidas.tipo_mascota_lost = '{$_GET['tipo']}'";
+}
+
+if (!empty($_GET['raza'])) {
+    $conditions[] = "mascotas_perdidas.raza_mascota_lost = '{$_GET['raza']}'";
+}
+
+if (!empty($_GET['sexo'])) {
+    $conditions[] = "mascotas_perdidas.sexo_mascota_lost = '{$_GET['sexo']}'";
+}
+
+if (!empty($_GET['tamano'])) {
+    $conditions[] = "mascotas_perdidas.tamano_mascota_lost = '{$_GET['tamano']}'";
+}
+
+if (!empty($_GET['ciudad'])) {
+    $conditions[] = "mascotas_perdidas.id_ciudad_fk = {$_GET['ciudad']}";
+}
+
+if (!empty($conditions)) {
+    $query .= " AND " . implode(" AND ", $conditions);
+}
+
 $result = mysqli_query($con, $query);
 
 if ($result) {

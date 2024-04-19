@@ -15,6 +15,16 @@ $query = "SELECT
     LEFT JOIN telefono_refugios ON refugios.id_refugio = telefono_refugios.id_refugio_fk
     WHERE refugios.id_estado_refugio_fk = 1";
 
+$conditions = [];
+
+if (!empty($_GET['ciudad'])) {
+    $conditions[] = "refugios.id_ciudad_fk = '{$_GET['ciudad']}'";
+}
+
+if (!empty($conditions)) {
+    $query .= " AND " . implode(" AND ", $conditions);
+}
+
 $result = mysqli_query($con, $query);
 
 if ($result) {

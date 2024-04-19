@@ -11,6 +11,32 @@ $query = "SELECT imagen_mascota.*, mascotas_calle.*, refugios.*, usuarios.*, tel
           LEFT JOIN direccion_refugio ON refugios.id_refugio = direccion_refugio.id_refugio_fk
           WHERE imagen_mascota.id_mascota_calle_fk IS NOT NULL";
 
+$conditions = [];
+
+if (!empty($_GET['tipo'])) {
+    $conditions[] = "mascotas_calle.tipo_mascota_calle = '{$_GET['tipo']}'";
+}
+
+if (!empty($_GET['raza'])) {
+    $conditions[] = "mascotas_calle.raza_mascota_calle = '{$_GET['raza']}'";
+}
+
+if (!empty($_GET['sexo'])) {
+    $conditions[] = "mascotas_calle.sexo_mascota_calle = '{$_GET['sexo']}'";
+}
+
+if (!empty($_GET['tamano'])) {
+    $conditions[] = "mascotas_calle.tamano_mascota_calle = '{$_GET['tamano']}'";
+}
+
+if (!empty($_GET['ciudad'])) {
+    $conditions[] = "mascotas_calle.id_ciudad_fk = {$_GET['ciudad']}";
+}
+
+if (!empty($conditions)) {
+    $query .= " AND " . implode(" AND ", $conditions);
+}
+
 $result = mysqli_query($con, $query);
 
 if ($result) {
