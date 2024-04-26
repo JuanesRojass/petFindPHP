@@ -10,6 +10,7 @@ $query = "SELECT imagen_mascota.*, mascotas_calle.*, refugios.*, usuarios.*, tel
           LEFT JOIN telefono_refugios ON refugios.id_refugio = telefono_refugios.id_refugio_fk
           LEFT JOIN direccion_refugio ON refugios.id_refugio = direccion_refugio.id_refugio_fk
           WHERE imagen_mascota.id_mascota_calle_fk IS NOT NULL";
+          
 
 $conditions = [];
 
@@ -36,6 +37,8 @@ if (!empty($_GET['ciudad'])) {
 if (!empty($conditions)) {
     $query .= " AND " . implode(" AND ", $conditions);
 }
+
+$query .= " ORDER BY mascotas_calle.id_mascota_calle DESC";
 
 $result = mysqli_query($con, $query);
 

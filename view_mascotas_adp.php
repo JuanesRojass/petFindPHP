@@ -32,13 +32,15 @@ $con=dbconnection();
 //         $nombreRaza = null;
 //     }
 
-$query = "SELECT mascotas_adopcion.*, imagen_mascota.imagen_mascota, imagen_mascota.imagen_mascota_dos, imagen_mascota.imagen_mascota_tres, refugios.*, telefono_refugios.telefono_refugio,  telefono_refugios.telefono_refugio_dos, telefono_refugios.telefono_refugio_tres, direccion_refugio.*
+$query = "SELECT mascotas_adopcion.*, imagen_mascota.imagen_mascota, imagen_mascota.imagen_mascota_dos, imagen_mascota.imagen_mascota_tres, refugios.*, telefono_refugios.telefono_refugio, telefono_refugios.telefono_refugio_dos, telefono_refugios.telefono_refugio_tres, direccion_refugio.*
           FROM mascotas_adopcion
           INNER JOIN imagen_mascota ON mascotas_adopcion.id_mascota_adp = imagen_mascota.id_mascota_adp_fk
           INNER JOIN refugios ON mascotas_adopcion.id_refugio_fk = refugios.id_refugio
           LEFT JOIN telefono_refugios ON refugios.id_refugio = telefono_refugios.id_refugio_fk
           LEFT JOIN direccion_refugio ON refugios.id_refugio = direccion_refugio.id_refugio_fk
           WHERE imagen_mascota.id_mascota_adp_fk IS NOT NULL";
+
+        
 
 $conditions = [];
 
@@ -69,6 +71,8 @@ if (!empty($_GET['ciudad'])) {
 if (!empty($conditions)) {
     $query .= " AND " . implode(" AND ", $conditions);
 }
+
+$query .= " ORDER BY mascotas_adopcion.edad_mascota_adp DESC";
 
 $result = mysqli_query($con, $query);
 

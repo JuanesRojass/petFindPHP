@@ -12,6 +12,7 @@ $query = "SELECT imagen_mascota.id_imagen_mascota,
           INNER JOIN mascotas_perdidas ON imagen_mascota.id_mascota_lost_fk = mascotas_perdidas.id_mascota_lost
           INNER JOIN usuarios ON mascotas_perdidas.id_cliente_fk = usuarios.id
           WHERE usuarios.id IS NOT NULL";
+          
 
 $conditions = [];
 
@@ -38,6 +39,8 @@ if (!empty($_GET['ciudad'])) {
 if (!empty($conditions)) {
     $query .= " AND " . implode(" AND ", $conditions);
 }
+
+$query .= " ORDER BY mascotas_perdidas.id_mascota_lost DESC";
 
 $result = mysqli_query($con, $query);
 
