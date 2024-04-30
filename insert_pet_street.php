@@ -60,6 +60,9 @@
     }
     else return;
 
+    $ubicacion_mascota_street = isset($_POST["ubicacion_mascota_street"]) &&
+     $_POST["ubicacion_mascota_street"] !== "" ? $_POST["ubicacion_mascota_street"] : NULL;
+
     if(isset($_POST["idUsuario"]))
     {
         $idUsuario=$_POST["idUsuario"];
@@ -154,9 +157,9 @@
     $queryMascotasCalle = "INSERT INTO `mascotas_calle`(
         `tipo_mascota_calle`, `color_mascota_calle`, `raza_mascota_calle`, 
         `tamano_mascota_calle`, `ciudad_mascota_calle`, `barrio_mascota_calle`,
-        `direccion_mascota_calle`, `desc_mascota_calle`, `sexo_mascota_calle`, 
+        `direccion_mascota_calle`, `ubicacion_mascota_calle`, `desc_mascota_calle`, `sexo_mascota_calle`, 
         `id_usuario_fk`, `id_refugio_fk`, `id_ciudad_fk`, `id_tipo_mascota_fk`, `id_raza_fk`)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         // $exeMascotasCalle=mysqli_query($con, $queryMascotasCalle);
 
         $stmtt = $con->prepare($queryMascotasCalle);
@@ -165,8 +168,8 @@
                 return;
                 }
                 // Vincula los parámetros y ejecuta
-                $stmtt->bind_param("sssssssssiiiii",  $nombreTipo, $color_mascota_street, $nombreRaza, $tamano_mascota_street,
-                $nombreCiudad, $nombreBarrio, $direccion_mascota_street, $desc_mascota_street,
+                $stmtt->bind_param("ssssssssssiiiii",  $nombreTipo, $color_mascota_street, $nombreRaza, $tamano_mascota_street,
+                $nombreCiudad, $nombreBarrio, $direccion_mascota_street, $ubicacion_mascota_street, $desc_mascota_street,
                 $sexo_mascota_street, $idCliente, $idRefugio, $ciudad_mascota_street,
                 $tipo_mascota_street, $raza_mascota_street);
                 
