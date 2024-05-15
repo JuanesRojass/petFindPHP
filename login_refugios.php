@@ -7,7 +7,7 @@
     $email = $_POST['email_refugio'];
     $password = $_POST['password_refugio'];
 
-    $consultar=$con->query("SELECT * FROM refugios WHERE email_refugio='".$email."' and password_refugio='".$password."'");
+    $consultar=$con->query("SELECT * FROM refugios WHERE email_refugio='".$email."' and password_refugio='".md5($password)."'");
 
     $resultado=array();
 

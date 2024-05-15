@@ -16,7 +16,7 @@
 
     if(isset($_POST["password_refugio"]))
     {
-        $password_refugio=$_POST["password_refugio"];
+        $password_refugio=md5($_POST["password_refugio"]);
     }
     else return;
 
